@@ -20,6 +20,7 @@ set ttyfast                 " Speed up scrolling in Vim
 " set spell                 " enable spell check (may need to download language package)
 " set noswapfile            " disable creating swap file
 " set backupdir=~/.cache/vim " Directory to store backup files.
+set encoding=utf-8
 
 call plug#begin()
  Plug 'morhetz/gruvbox'
@@ -30,7 +31,16 @@ call plug#begin()
  Plug 'preservim/nerdcommenter'
  Plug 'mhinz/vim-startify'
  Plug 'neoclide/coc.nvim', {'branch': 'release'}
-call plug#end()
+ Plug 'nvim-tree/nvim-web-devicons' " OPTIONAL: for file icons
+ Plug 'lewis6991/gitsigns.nvim' " OPTIONAL: for git status
+ Plug 'romgrk/barbar.nvim'
+ Plug 'preservim/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin'
+ Plug 'lervag/vimtex'
+ Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
+ Plug 'zbirenbaum/copilot.lua'
+ Plug 'nvim-lua/plenary.nvim'
+ Plug 'CopilotC-Nvim/CopilotChat.nvim', { 'branch': 'canary' }
+ call plug#end()
 
 colorscheme gruvbox
 let g:bargreybars_auto=0
@@ -70,7 +80,44 @@ nnoremap <C-t> :NERDTree<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 
-Plug 'nvim-tree/nvim-web-devicons' " OPTIONAL: for file icons
-Plug 'lewis6991/gitsigns.nvim' " OPTIONAL: for git status
-Plug 'romgrk/barbar.nvim'
-Plug 'preservim/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin'
+filetype plugin indent on
+
+" This enables Vim's and neovim's syntax-related features. Without this, some
+" VimTeX features will not work (see ":help vimtex-requirements" for more
+" info).
+syntax enable
+
+" Viewer options: One may configure the viewer either by specifying a built-in
+" viewer method:
+let g:vimtex_view_method = 'zathura'
+
+" Or with a generic interface:
+"let g:vimtex_view_general_viewer = 'okular'
+"let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+
+" VimTeX uses latexmk as the default compiler backend. If you use it, which is
+" strongly recommended, you probably don't need to configure anything. If you
+" want another compiler backend, you can change it as follows. The list of
+" supported backends and further explanation is provided in the documentation,
+" see ":help vimtex-compiler".
+let g:vimtex_compiler_method = 'latexmk'
+
+" Most VimTeX mappings rely on localleader and this can be changed with the
+" following line. The default is usually fine and is the symbol "\".
+"let maplocalleader = ","
+
+let g:livepreview_previewer = 'zathura'
+
+" Move to previous/next
+nnoremap <silent>    <C-,> <Cmd>BufferPrevious<CR>
+nnoremap <silent>    <C-.> <Cmd>BufferNext<CR>
+
+" Re-order to previous/next
+nnoremap <silent>    <C-w> <Cmd>BufferClose<CR>
+nnoremap <silent>    <C-w-w> <Cmd>BufferRestore<CR>
+lua << EOF
+require("CopilotChat").setup {
+  debug = true, -- Enable debugging
+  -- See Configuration section for rest
+}
+EOF
