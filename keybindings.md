@@ -1,6 +1,9 @@
-## Bar Bar Keybindings
-Change tab - `Ctrl + ,/.`
+### Bar Bar (Tabs plugin)
+Change tab - `Ctrl + ,/.` \
 Close tab - `Ctrl + w`
 
-## Add Plugin
+### NerdTree 
+Toggle NerdTree - `Ctrl + n` \
+
+### Add Plugin
 ::PlugInstall (After adding in nvim.init)
