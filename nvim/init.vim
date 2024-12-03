@@ -17,13 +17,14 @@ set mouse=a                 " enable mouse click
 set clipboard=unnamedplus   " using system clipboard
 filetype plugin on
 set ttyfast                 " Speed up scrolling in Vim
-" set spell                 " enable spell check (may need to download language package)
+set spelllang=en_us         " set spell check language
+set spell                 " enable spell check (may need to download language package)
 " set noswapfile            " disable creating swap file
 " set backupdir=~/.cache/vim " Directory to store backup files.
 set encoding=utf-8
 
 call plug#begin()
- Plug 'morhetz/gruvbox'
+ Plug 'EdenEast/nightfox.nvim'
  Plug 'ryanoasis/vim-devicons'
  Plug 'SirVer/ultisnips'
  Plug 'honza/vim-snippets'
@@ -40,16 +41,18 @@ call plug#begin()
  Plug 'zbirenbaum/copilot.lua'
  Plug 'nvim-lua/plenary.nvim'
  Plug 'CopilotC-Nvim/CopilotChat.nvim', { 'branch': 'canary' }
+ Plug 'psf/black', { 'branch': 'stable' }
  call plug#end()
 
-colorscheme gruvbox
-let g:bargreybars_auto=0
-let g:airline_solorized_bg='dark'
-let g:airline_powerline_fonts=1
-let g:airline#extension#tabline#enable=1
-let g:airline#extension#tabline#left_sep=' '
-let g:airline#extension#tabline#left_alt_sep='|'
-let g:airline#extension#tabline#formatter='unique_tail'
+"set background=dark
+colorscheme Nightfox
+"let g:bargreybars_auto=0
+"let g:airline_solorized_bg='dark'
+"let g:airline_powerline_fonts=1
+"let g:airline#extension#tabline#enable=1
+"let g:airline#extension#tabline#left_sep=' '
+"let g:airline#extension#tabline#left_alt_sep='|'
+"let g:airline#extension#tabline#formatter='unique_tail'
 let NERDTreeQuitOnOpen=1
 
 " move line or visually selected block - alt+j/k
@@ -101,13 +104,23 @@ let g:vimtex_view_method = 'zathura'
 " supported backends and further explanation is provided in the documentation,
 " see ":help vimtex-compiler".
 let g:vimtex_compiler_method = 'latexmk'
-
+let g:vimtex_quickfix_enabled = 1
+let g:vimtex_compiler_latexmk = {
+    \ 'options' : [
+    \   '-pdf',
+    \   '-shell-escape',
+    \   '-verbose',
+    \   '-file-line-error',
+    \   '-synctex=1',
+    \   '-interaction=nonstopmode',
+    \ ],
+    \}
 " Most VimTeX mappings rely on localleader and this can be changed with the
 " following line. The default is usually fine and is the symbol "\".
-"let maplocalleader = ","
+let maplocalleader = " "
 
 let g:livepreview_previewer = 'zathura'
-
+let g:livepreview_use_biber = 1
 " Move to previous/next
 nnoremap <silent>    <C-,> <Cmd>BufferPrevious<CR>
 nnoremap <silent>    <C-.> <Cmd>BufferNext<CR>
